@@ -335,7 +335,7 @@ end
 Or in a single step using mash using the optional block:
 
 ```ruby
-[["functional", "programming", "rules"].mash { |s| [s, s.length] }]
+["functional", "programming", "rules"].mash { |s| [s, s.length] }
 # {"rules"=>5, "programming"=>11, "functional"=>10}
 ```
 

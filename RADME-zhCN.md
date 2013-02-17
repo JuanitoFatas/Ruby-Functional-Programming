@@ -339,7 +339,7 @@ end
 或使用 `mash` 及 选择性区块来一步完成：
 
 ```Ruby
-[["functional", "programming", "rules"].mash { |s| [s, s.length] }]
+["functional", "programming", "rules"].mash { |s| [s, s.length] }
 # {"rules"=>5, "programming"=>11, "functional"=>10}
 ```
 
