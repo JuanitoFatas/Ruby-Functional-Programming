@@ -561,7 +561,7 @@ Workshop at [Conferencia Rails 2011](http://conferenciarails.org/): [Functional 
 
 http://en.wikipedia.org/wiki/Functional_programming
 
-http://www.defmacro.org/ramblings/fp.html
+http://www.defmacro.org/ramblings/fp.html __[译文](http://t.cn/zYaCDw7)__
 
 http://www.cse.chalmers.se/~rjmh/Papers/whyfp.html
 
