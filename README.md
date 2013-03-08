@@ -186,7 +186,7 @@ length = 0
 ["milu", "rantanplan"].each do |dog_name|
   length += dog_name.length
 end
-length # => 15
+length # => 14
 ```
 
 Yes:
@@ -194,13 +194,13 @@ Yes:
 ```Ruby
 length = ["milu", "rantanplan"].inject(0) do |accumulator, dog_name|
   accumulator + dog_name.length
-end # => 15
+end # => 14
 ```
 
 在這個特殊情況下，當累積器與元素之間有操作進行時，我們不需要區塊，只要將操作傳給符號即可。
 
 ```Ruby
-length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 15
+length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 14
 ```
 
 #### empty + each + accumulate + push -> scan
@@ -214,7 +214,7 @@ total_length = 0
   lengths << total_length
   total_length += dog_name.length
 end
-lengths # [0, 4, 15]
+lengths # [0, 4]
 ```
 
 在函數式的世界裡，Haskell 稱之為 [scan](http://zvon.org/other/haskell/Outputprelude/scanl_f.html), C++ 稱之為 [partial_sum](http://www.cplusplus.com/reference/std/numeric/partial_sum/), Clojure 稱之為 [reductions](http://clojuredocs.org/clojure_core/clojure.core/reductions)。
@@ -224,7 +224,7 @@ lengths # [0, 4, 15]
 ```Ruby
 lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
   dog_name.length
-end # [0, 4, 15]
+end # [0, 4, 14]
 ```
 
 Enumerable#partial_inject 可以這麼實現：
@@ -333,14 +333,14 @@ end
 
 ```Ruby
 ["functional", "programming", "rules"].map { |s| [s, s.length] }.mash
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 或使用 `mash` 及 選擇性區塊來一步完成：
 
 ```Ruby
 ["functional", "programming", "rules"].mash { |s| [s, s.length] }
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 ### 物件導向與函數式程式設計
@@ -397,7 +397,7 @@ end
 
 ### 遞迴
 
-純函數式語言沒有隱含的狀態，大量利用了遞迴。要避免 stack overflow，函數式使用一種稱為尾遞迴優化(TCO)的機制。Ruby 1.9 有實作這種機制，但預設沒有打開。要是你希望你的程式，在哪都可以動的話，就不要使用它。
+純函數式語言沒有隱含的狀態，大量利用了遞迴。為了避免 stack overflow，函數式使用一種稱為尾遞迴優化(TCO)的機制。Ruby 1.9 有實作這種機制，但預設沒有打開。要是你希望你的程式，在哪都可以動的話，就不要使用它。
 
 但是某些情況下，遞迴仍然是很有用的，即便是每次遞迴時都創建新的堆疊。注意！某些遞迴的用途可以用 foldings 來實現(像 Enumerable#inject)。
 

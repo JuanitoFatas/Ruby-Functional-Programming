@@ -186,7 +186,7 @@ length = 0
 ["milu", "rantanplan"].each do |dog_name|
   length += dog_name.length
 end
-length # => 15
+length # => 14
 ```
 
 Yes:
@@ -194,13 +194,13 @@ Yes:
 ```Ruby
 length = ["milu", "rantanplan"].inject(0) do |accumulator, dog_name|
   accumulator + dog_name.length
-end # => 15
+end # => 14
 ```
 
 在这个特殊情况下，当累积器与元素之间有操作进行时，我们不需要区块，只要将操作传给符号即可。
 
 ```Ruby
-length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 15
+length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 14
 ```
 
 #### empty + each + accumulate + push -> scan
@@ -214,7 +214,7 @@ total_length = 0
   lengths << total_length
   total_length += dog_name.length
 end
-lengths # [0, 4, 15]
+lengths # [0, 4, 14]
 ```
 
 在函数式的世界裡，Haskell 称之为 [scan](http://zvon.org/other/haskell/Outputprelude/scanl_f.html), C++ 称之为 [partial_sum](http://www.cplusplus.com/reference/std/numeric/partial_sum/), Clojure 称之为 [reductions](http://clojuredocs.org/clojure_core/clojure.core/reductions)。
@@ -224,7 +224,7 @@ lengths # [0, 4, 15]
 ```Ruby
 lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
   dog_name.length
-end # [0, 4, 15]
+end # [0, 4, 14]
 ```
 
 Enumerable#partial_inject 可以这么实现：
@@ -333,14 +333,14 @@ end
 
 ```Ruby
 ["functional", "programming", "rules"].map { |s| [s, s.length] }.mash
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 或使用 `mash` 及 选择性区块来一步完成：
 
 ```Ruby
 ["functional", "programming", "rules"].mash { |s| [s, s.length] }
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 ### 面向对象与函数式编程
@@ -397,7 +397,7 @@ end
 
 ### 递归
 
-纯函数式语言没有隐含的状态，大量利用了递归。要避免栈溢出，函数式使用一种称为尾递归优化(TCO)的机制。Ruby 1.9 有实作这种机制，但缺省没有打开。要是你希望你的程序，在哪都可以动的话，就不要使用它。
+纯函数式语言没有隐含的状态，大量利用了递归。为了避免栈溢出，函数式使用一种称为尾递归优化(TCO)的机制。Ruby 1.9 有实作这种机制，但缺省没有打开。要是你希望你的程序，在哪都可以动的话，就不要使用它。
 
 但是某些情况下，递归仍然是很有用的，即便是每次递归时都创建新的栈。注意！某些递归的用途可以用 foldings 来实现(像 Enumerable#inject)。
 

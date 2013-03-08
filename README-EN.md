@@ -184,7 +184,7 @@ length = 0
 ["milu", "rantanplan"].each do |dog_name|
   length += dog_name.length
 end
-length # => 15
+length # => 14
 ```
 
 Yes:
@@ -192,13 +192,13 @@ Yes:
 ```ruby
 length = ["milu", "rantanplan"].inject(0) do |accumulator, dog_name|
   accumulator + dog_name.length
-end # => 15
+end # => 14
 ```
 
 In this particular case, when there is a simple operation between accumulator and element, we don't need to write the block, just pass the operation symbol:
 
 ```ruby
-length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 15
+length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 14
 ```
 
 #### empty + each + accumulate + push -> scan
@@ -212,7 +212,7 @@ total_length = 0
   lengths << total_length
   total_length += dog_name.length
 end
-lengths # [0, 4, 15]
+lengths # [0, 4, 14]
 ```
 
 In the functional world, Haskell calls it [scan](http://zvon.org/other/haskell/Outputprelude/scanl_f.html), C++ calls it [partial_sum](http://www.cplusplus.com/reference/std/numeric/partial_sum/), Clojure calls it [reductions](http://clojuredocs.org/clojure_core/clojure.core/reductions). Ruby, surprisingly, has no such function, let's write our own. How about that:
@@ -220,7 +220,7 @@ In the functional world, Haskell calls it [scan](http://zvon.org/other/haskell/O
 ```ruby
 lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
   dog_name.length
-end # [0, 4, 15]
+end # [0, 4, 14]
 ```
 
 Enumerable#partial_inject can be written:
@@ -329,14 +329,14 @@ end
 
 ```ruby
 ["functional", "programming", "rules"].map { |s| [s, s.length] }.mash
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 Or in a single step using mash using the optional block:
 
 ```ruby
 ["functional", "programming", "rules"].mash { |s| [s, s.length] }
-# {"rules"=>5, "programming"=>11, "functional"=>10}
+# {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
 ### OOP and funcional programming
