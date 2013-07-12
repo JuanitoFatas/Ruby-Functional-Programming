@@ -227,7 +227,7 @@ lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
 end # [0, 4, 14]
 ```
 
-Enumerable#partial_inject 可以這麼實現：
+`Enumerable#partial_inject` 可以這麼實現：
 
 ```Ruby
 module Enumerable
