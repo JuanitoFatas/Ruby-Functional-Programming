@@ -336,7 +336,7 @@ end
 # {"functional"=>10, "programming"=>11, "rules"=>5}
 ```
 
-或使用 `mash` 及 選擇性區塊來一步完成：
+或使用 `mash` 及選擇性區塊來一步完成：
 
 ```Ruby
 ["functional", "programming", "rules"].mash { |s| [s, s.length] }
