@@ -270,7 +270,7 @@ name = obj2.name if !name
 name = ask_name if !name
 ```
 
-在此时你应该觉得这样的代码使你很不自在（一个变量一下是这个值，一下是这个；变量名 `name` 到处都是…等）。函数式的方式更简短，也更简洁：
+在此时你应该觉得这样的代码使你很不自在（一个变量一下是这个值，一下是那个值；变量名 `name` 到处都是…等）。函数式的方式更简短，也更简洁：
 
 ```Ruby
 name = obj1.name || obj2.name || ask_name
@@ -286,7 +286,7 @@ def get_best_object(obj1, obj2, obj3)
 end
 ```
 
-可以写成像是这样的一个表达式：
+初衷是为了节省几行代码，结果是代码变得难读懂了。别这样。写成如下表达式会更清楚：
 
 ```Ruby
 def get_best_object(obj1, obj2, obj3)
@@ -300,7 +300,7 @@ def get_best_object(obj1, obj2, obj3)
 end
 ```
 
-确实有一点囉嗦，但逻辑比一堆行内 `if/unless` 来得清楚。经验法则告诉我们，仅在你确定会用到副作用时，使用行内条件式，而不是在变量赋值或返回的场合使用：
+确实有一点啰嗦，但逻辑（缩进让它更突出了）比一堆行内 `if/unless` 来得清楚。经验法则告诉我们，仅在你确定会用到副作用时，使用行内条件式，而不是在变量赋值或返回的场合使用：
 
 ```Ruby
 country = Country.find(1)
@@ -310,7 +310,7 @@ country.invade if country.has_oil?
 
 #### 如何从 enumerable 创造一个 hash
 
-Vanilla Ruby 没有从 Enumerable 转到 Hash 的直接对应（本人认为是一个遗憾的缺陷）。这也是为什么新手持续写出下面这个糟糕的模式(而你又怎么能责怪他们呢？唉！）：
+Ruby 默认没有实现从 Enumerable 直接转到 Hash 的函数（本人认为这个缺陷令人遗憾）。这也是为什么新手持续写出下面这个糟糕的模式(而你又怎么能责怪他们呢？唉！）：
 
 ```Ruby
 hash = {}
@@ -320,7 +320,7 @@ end
 hash
 ```
 
-这真的非常可怕！阿～～～！但手边有没有更好的办法呢？过去 Hash 构造子需要一个有着连续键值对的 flatten 集合 （呃，用 flatten 数组来描述映射？Lisp 曾这么做，但还是很丑陋）。幸运的是，最新版本的 Ruby 也接受键值对，这样更有意义（作为 `hash.to_a` 的逆操作），现在你可以这么写：
+丑陋啊！但手边有没有更好的办法呢？过去 Hash 构造子需要一个有着连续键值对的扁平集合 （呃，用 flatten 数组来描述映射？Lisp 曾这么做，但还是很丑陋）。幸运的是，最新版本的 Ruby 也接受键值对，这样更有意义（作为 `hash.to_a` 的逆操作），现在你可以这么写：
 
 ```Ruby
 Hash[input.map do |item|
@@ -328,7 +328,7 @@ Hash[input.map do |item|
 end]
 ```
 
-不赖嘛，但这打破了平常的撰写顺序。在 Ruby 我们期望从左向右写，给对象调用方法。而“好的”函数式方式是使用 `inject`：
+不赖嘛，但这打破了平常的撰写顺序。在 Ruby 中我们期望从左向右写，给对象调用方法。而“好的”函数式方式是使用 `inject`：
 
 ```Ruby
 input.inject({}) do |hash, item|
@@ -336,7 +336,7 @@ input.inject({}) do |hash, item|
 end
 ```
 
-我们都同意这还是很囉嗦，所以我们最好将它放在 Enumerable 模组，[Facets](http://rubyworks.github.com/facets/) 正是这么干的。它称之为 `Enumerable#mash`：
+还是很啰嗦，所以我们最好将它放在 Enumerable 模组，[Facets](http://rubyworks.github.com/facets/) 正是这么干的。它称之为 `Enumerable#mash`：
 
 ```Ruby
 module Enumerable
