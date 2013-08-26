@@ -95,7 +95,7 @@ hash = {:a => 1, :b => 2}
 new_hash = hash.merge(:c => 3)
 ```
 
-#### 不要使用有破坏性方法，即那些带惊叹号的方法
+#### 不要使用有破坏性的方法，即那些带惊叹号的方法
 
 No:
 
@@ -128,6 +128,24 @@ Yes:
 ```Ruby
 output = [1, (2 if i_have_to_add_two), 3].compact
 ```
+
+#### Don't reuse variables
+
+我们应该避免的常见模式：
+
+```Ruby
+number = gets
+number = number.to_i
+```
+
+这里，我们没有更新number，但用新的值冲掉了之前的值。从函数式变成的观点看，更新变量和冲掉之前的变量都是不好的。它们都违背了同样的原则：一旦写下 number = gets ， number在其scope中值就不该变化。如果要做转化，使用其它变量名：
+
+```Ruby
+number_string = gets
+number = number_string.to_i
+```
+
+记住，把 “变量 = 值 ” 中的等号看做是数学中的等号。一旦等于了，就不应该改变。这该是程序员和将来读该代码的人之间的神圣约定：scope中的变量总是可以直接被它们的值所替代。
 
 ### 用 Blocks 作为高阶函数
 
