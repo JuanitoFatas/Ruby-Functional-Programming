@@ -215,7 +215,7 @@ length = ["milu", "rantanplan"].inject(0) do |accumulator, dog_name|
 end # => 14
 ```
 
-在这个特殊情况下，当累积器与元素之间有操作进行时，我们不需要区块，只要将操作传给符号即可。
+在上例这种特殊情况下，累积器与元素之间的操作很简单，我们不需要区块，只要将二元操作符传给符号初始值即可。
 
 ```Ruby
 length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 14
