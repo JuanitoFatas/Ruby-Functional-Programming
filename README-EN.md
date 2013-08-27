@@ -10,6 +10,7 @@ This document is compiled from [RubyFunctionalProgramming](http://code.google.co
 * [The theory](#the-theory)
 * [Functional programming in Ruby](#functional-programming-in-ruby)
 	* [Don't update variables](#dont-update-variables)
+  * [Don't reuse variables](#dont-reuse-variables)
 	* [Blocks as higher order functions](#blocks-as-higher-order-functions)
 	* [OOP and funcional programming](#oop-and-funcional-programming)
 	* [Everything is an expression](#everything-is-an-expression)
@@ -90,7 +91,7 @@ Yes:
 
 ```ruby
 hash = {:a => 1, :b => 2}
-new_hash = hash.merge(:c => 3) 
+new_hash = hash.merge(:c => 3)
 ```
 
 #### Don't use bang methods which modify in-place
@@ -126,6 +127,24 @@ Yes:
 ```ruby
 output = [1, (2 if i_have_to_add_two), 3].compact
 ```
+
+### Don't reuse variables
+
+That's a common pattern we should avoid:
+
+```ruby
+number = gets
+number = number.to_i
+```
+
+While here we're not updating number but overriding the old variable, if updating variables is bad (from a FP perspective), so is overriding them. The principle is the same: once you write number = gets, number should have the same value for all the scope. If you want to apply some transformation, just use different names:
+
+```ruby
+number_string = gets
+number = number_string.to_i
+```
+
+Remember, as in math, var = value, should be a sacred contract between the coder and the future reader of the code: every time var is found in the scope, you can substitute it by value.
 
 ### Blocks as higher order functions
 
@@ -264,7 +283,7 @@ def get_best_object(obj1, obj2, obj3)
 end
 ```
 
-Can be written as a real expression like this:
+We are making the code harder to reader just to save some lines. Don't do that. This can be written as a more clear expression like this:
 
 ```ruby
 def get_best_object(obj1, obj2, obj3)
@@ -359,7 +378,7 @@ Rich Hickey, the creator of Clojure (a functional Lisp-dialect for the JVM), dis
 You may write this:
 
 ```ruby
-if found_dog == our_dog 
+if found_dog == our_dog
   name = found_dog.name
   message = "We found our dog #{name}!"
 else
@@ -502,7 +521,7 @@ require 'enumerable/lazy'
 2. Not so obvious: Lazy evaluation makes possible to write code that does not know (not want to know) more that it needs to. Let's see an example: you wrote a solver of some kind that yields infinite number of solutions, but at some point you only want to get the first 10. You'd write something like:
 
 ```ruby
-solver(input, :max => 10) 
+solver(input, :max => 10)
 ```
 
 When you are working with lazy structures there is no need to say when to stop. The caller decides how many values it wants. The code becomes simplier and the responsibility goes where it should be, to the caller:
