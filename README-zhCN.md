@@ -541,7 +541,7 @@ solver(input).take(10)
 练习：“前十个平方可被五整除的自然数的和是多少？”
 
 ```Ruby
-Integer::natural.select { |x| x ** 2 % 5 == 0 }.take(10).inject(:+) #=> 275
+Integer::natural.select { |x| x**2 % 5 == 0 }.take(10).inject(:+) #=> 275
 ```
 
 让我们跟等价的命令式版本来比较：
