@@ -152,7 +152,7 @@ number = number_string.to_i
 
 如果一個語言要搞函數式，會需要高階函數。高階函數是什麼？函數可以接受別的函數作為參數，並可以回傳函數，就這麼簡單。
 
-Ruby (與 Smalltalk 還有其它語言）在這個方面上非常特別，語言本身就內建這個功能： **blocks** 區塊。區塊是一段匿名的程式碼，你可以隨意的傳來傳去或是執行它。讓我們看區塊的典型用途，來建構函數式程式設計的建構子。
+Ruby（與 Smalltalk 還有其它語言）在這個方面上非常特別，語言本身就內建這個功能： **blocks** 區塊。區塊是一段匿名的程式碼，你可以隨意的傳來傳去或是執行它。讓我們看區塊的典型用途，來建構函數式程式設計的建構子。
 
 #### init-empty + each + push = map
 
@@ -224,7 +224,7 @@ length = ["milu", "rantanplan"].map(&:length).inject(0, :+) # 14
 
 #### empty + each + accumulate + push -> scan
 
-想像一下，你不僅想要摺疊(fold)的結果，也想要過程中產生的部分數值。用命令式程式設計風格，你可能會這麼寫：
+想像一下，你不僅想要摺疊（fold）的結果，也想要過程中產生的部分數值。用命令式程式設計風格，可能會寫成這樣：
 
 ```Ruby
 lengths = []
@@ -238,7 +238,7 @@ lengths # [0, 4]
 
 在函數式的世界裡，Haskell 稱之為 [scan](http://zvon.org/other/haskell/Outputprelude/scanl_f.html), C++ 稱之為 [partial_sum](http://www.cplusplus.com/reference/std/numeric/partial_sum/), Clojure 稱之為 [reductions](http://clojuredocs.org/clojure_core/clojure.core/reductions)。
 
-令人訝異的是，Ruby 居然沒有這樣的函數！讓我們自己寫一個。這個怎麼樣：
+令人驚訝的是，Ruby 居然沒有這樣的函數！讓我們自己寫一個。這個怎麼樣：
 
 ```Ruby
 lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
@@ -246,7 +246,7 @@ lengths = ["milu", "rantanplan"].partial_inject(0) do |dog_name|
 end # [0, 4, 14]
 ```
 
-`Enumerable#partial_inject` 可以這麼實現：
+`Enumerable#partial_inject` 可以這麼實作：
 
 ```Ruby
 module Enumerable
@@ -259,7 +259,7 @@ module Enumerable
 end
 ```
 
-實作的細節不重要，重要的是，當認出一個有趣的模式可以被抽象化時，我們將其寫在另一個函式庫，撰寫文件，反覆測試。現在只要讓實際的需求去完善你的擴充即可。
+實作的細節不重要，重要的是，當認出一個有趣的模式可以被抽象化時，將其寫成一個函式庫，撰寫文件，反覆測試。現在只要讓實際的需求去完善你的函式庫即可。
 
 #### initial assign + conditional assign + conditional assign + ...
 
@@ -364,7 +364,7 @@ end
 
 ### 物件導向與函數式程式設計
 
-[Joe Armstrong][JA] (Erlang 發明人) 在 “Coders At work” 談論過物件導向程式設計的重用性：
+[Joe Armstrong][JA]（Erlang 發明人）在 “Coders At work” 談論過物件導向程式設計的重用性：
 
 “我認為缺少重用性是物件導向語言造成的，而不是函數式語言。物件導向語言的問題是，它們帶著語言執行環境的所有隱含資訊四處亂竄。你想要的是香蕉，但看到的卻是香蕉拿在大猩猩手裡，而大猩猩的後面是整個叢林”
 
@@ -372,7 +372,7 @@ end
 
 * 典型的 OOP 傾向強調改變物件的狀態。
 * 典型的 OOP 傾向層與層之間緊密的耦合。
-* 典型的 OOP 將同一性(identity)與狀態的概念搞混了。
+* 典型的 OOP 將同一性（identity）與狀態的概念搞混了。
 * 資料與程式碼的混合物，導致了概念與實際的問題產生。
 
 [Rich Hickey][RH]，Clojure 的發明人（一個給 JVM 用的函數式 Lisp 方言），在這場[出色的演講](http://www.infoq.com/presentations/Value-Identity-State-Rich-Hickey)裡談論了狀態、數值以及同一性。
@@ -416,9 +416,9 @@ end
 
 ### 遞迴
 
-純函數式語言沒有隱含的狀態，大量利用了遞迴。為了避免 stack overflow，函數式使用一種稱為尾遞迴優化（TCO）的機制。Ruby 1.9 有實作這種機制，但預設沒有打開。要是你希望你的程式，在哪都可以動的話，就不要使用它。
+純函數式語言大量利用了遞迴，狀態都很明確。為了避免 stack overflow，函數式使用一種稱為尾遞迴優化（TCO）的機制。Ruby 1.9 有實作這種機制，預設沒有開啟。要是你希望你的程式，在那都可以工作的話，就不要使用尾遞迴優化。
 
-但是某些情況下，遞迴仍然是很有用的，即便是每次遞迴時都創建新的堆疊。注意！某些遞迴的用途可以用 foldings 來實現（像 `Enumerable#inject`）。
+但是某些情況下，遞迴仍然是很有用的，即便是每次遞迴時都創建新的堆疊。注意！某些遞迴的用途可以用 foldings 來實作（像 `Enumerable#inject`）。
 
 在 MRI-1.9 啟用 TCO：
 
@@ -439,7 +439,7 @@ module Math
 end
 ```
 
-在遞迴深度不太可能很深的情況下，你仍可以使用：
+在遞迴深度不會很深的情況下，仍可以使用：
 
 ```Ruby
 class Node
@@ -509,7 +509,7 @@ natural_numbers.map { |x| 2*x }.take(10)
 # [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 ```
 
-枚舉器是用來建構惰性行為的區塊的好東西，但你可以使用用懶惰風格，實作了所有 Enumerable 方法的函式庫：
+枚舉器是用來建構惰性行為的區塊的好東西，但你可以使用用懶惰風格，實作了所有 `Enumerable` 方法的函式庫：
 
 
 https://github.com/yhara/enumerable-lazy
@@ -570,7 +570,7 @@ sum #=> 275
 
 ### 結論
 
-更好的理解函數式程式設計的原理，幫助我們寫出更清晰、重用性更高並更簡潔的程式碼。Ruby 基本上是一個命令式語言，但它也有很大的函數式能力，明白什麼時候用，及如何用（以及何時不該用）這些能力。將這句話當成你的座右銘吧 “狀態是萬惡的根源，盡可能避免它。”
+更好的理解函數式程式設計的原理，幫助我們寫出更清晰、重用性更高並更簡潔的程式碼。Ruby 基本上是一個命令式語言，但它也有很大的函數式能力，明白什麼時候用，及如何用（以及何時不該用）這些能力。將這句話當成你的座右銘吧“狀態是萬惡的根源，盡可能避免它。”。
 
 ### 簡報
 
@@ -594,7 +594,7 @@ http://www.infoq.com/presentations/Value-Identity-State-Rich-Hickey
 
 ## 授權
 
-This document is licensed under the CC-By 3.0 License, which encourages you to share these documents. See http://creativecommons.org/licenses/by/3.0/ for more details.
+本文授權為 CC-By 3.0，歡迎分享此文件。進一步了解請參考 http://creativecommons.org/licenses/by/3.0/。
 
 <img alt="CC-By 3.0 License http://creativecommons.org/licenses/by/3.0/" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
 
